@@ -1,0 +1,25 @@
+<?php
+/**
+ * Partial for Basic Bootstrap Form Group
+ */
+$element = $this->element; 
+?>
+
+<div>
+	<div class="form-group col-lg-6">
+		<div class="row">
+			<label for="<?php echo $element->getName()?>"><?php echo $element->getLabel()
+				?>
+				<?php
+				if ($element->isRequired()){
+				?>
+				<span style="color:#ff0000">*</span> <?php
+				}
+				?></label>
+			<div>
+				<?php echo $element->renderViewHelper()
+				?>		
+			</div>	
+		</div>
+	</div>	
+</div>

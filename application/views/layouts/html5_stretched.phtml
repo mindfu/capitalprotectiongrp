@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/public/css/bootstrap.min.css" type="text/css"/>
+		<link rel="stylesheet" href="/public/css/style.css" type="text/css"/>
+		<script type="text/javascript" src="/public/js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
+		<?php echo $this -> headTitle();
+		echo $this -> headLink();
+		echo $this -> headScript();
+		?>
+
+		<style type="text/css">
+			body {
+				padding-top: 70px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="navbar navbar-fixed-top bs-docs-nav">
+			<a class="navbar-brand" href="/">Capital Protection</a>
+			<ul class="nav navbar-nav">
+				<li class="active">
+					<a href="/portfolio/">Home</a>
+				</li>
+				<li>
+					<a href="/hedgefunds/">HedgeFunds</a>
+				</li>
+				<li>
+					<a href="/portfolio/">Portfolios</a>
+				</li>
+				<li>
+					<a href="#">Account Settings</a>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->manager["first_name"]." ".$this->manager["last_name"]
+					?><b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="/users/logout/">Logout</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<?php echo $this->layout()->content
+		?>
+	</body>
+</html>

@@ -1,0 +1,28 @@
+<?php
+/**
+ * Partial for Basic Bootstrap Form With Inline Elements Group
+ */
+$elements = $this->elements; 
+$label_name = $this->label_name;
+$required = $this->required;
+?>
+
+
+<div class="form-group">
+	<?php
+	if ($label_name){
+		?>
+		<label><?php echo $label_name;?><?php if ($required){ ?> <span style="color:#ff0000">*</span> <?php } ?></label>
+		<?php		
+	}?>
+	<div class="form-inline" style="height:33px;">
+		<?php 
+		foreach($elements as $element){
+			?>
+			<div class="form-group">
+				<?php echo $element->renderViewHelper()?>&nbsp;
+			</div>
+			<?php
+		}?>
+	</div>
+</div>

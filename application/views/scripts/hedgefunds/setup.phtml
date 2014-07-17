@@ -1,0 +1,109 @@
+<?php
+$elements = $this->form->getElements();
+$form = $this->form;
+?>
+
+
+
+
+<div class="row">
+	<div class="col-lg-12">
+		<h1>Setup New Fund</h1>
+		<ol class="breadcrumb">
+			<li>
+				<a href="/"> <i class="icon-home"></i> Home</a>
+			</li>
+			<li>
+				<a href="/hedgefunds/"> <i class="icon-table"></i> Hedge Funds</a>
+			</li>
+			<li class="active">
+				<i class="icon-table"></i> Setup HedgeFund
+			</li>
+			
+		</ol>
+	</div>
+	<div class="alert alert-info alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			Use the Tab to navigate through different sections. Section marked with * have required fields.
+	</div>
+</div>
+
+<form role="form" action="/hedgefunds/create" method="POST" id="hedgefund_setup_form">
+	
+		
+	
+	<div class="row">
+		<div id="save_result"></div>
+		<div class="container-fluid clear-fix" style="clear:both;margin-bottom:15px;">
+			<button class="btn btn-primary" type="submit">Save New Fund</button>
+		</div>
+	</div>
+	
+	<ul id="myTab" class="nav nav-tabs" style="margin-bottom:15px">
+	    <li class="active"><a href="#basic" data-toggle="tab">Basic Information *</a></li>
+	    <li class=""><a href="#info_2" data-toggle="tab">Information 2 *</a></li>
+	    <li class=""><a href="#people" data-toggle="tab">People</a></li>
+	    
+	  </ul>
+	 
+	<div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="basic">
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("fund_name"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("category_id"))); ?>
+        	
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("general_partner_fname"), $form->getElement("general_partner_lname"), $form->getElement("general_partner_title")), "required"=>true, "label_name"=>"General Partner")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("manager_fname"), $form->getElement("manager_lname"), $form->getElement("manager_title")), "required"=>true, "label_name"=>"Manager")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("street_1"), $form->getElement("street_2")), "required"=>true, "label_name"=>"Address")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("city"), $form->getElement("state"), $form->getElement("country_id"), $form->getElement("continent_id")), "required"=>false, "label_name"=>"")); ?>
+			
+			<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("phone"))); ?>
+			<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("fax"))); ?>
+			<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("email"))); ?>
+			
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("contact_person_fname"), $form->getElement("contact_person_lname"), $form->getElement("contact_person_title")), "required"=>false, "label_name"=>"Contact Person")); ?>
+			<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("description"))); ?>
+        </div>
+        <div class="tab-pane fade" id="info_2">
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("firm_assets"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("fund_assets"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("primary_strategy"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("secondary_strategy"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("secondary_strategy_2"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("onshore_offshore"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("return_start"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("minimum_investment"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("management_fee"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("incentive_fee"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("early_redemption_fee"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("other_fee"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("capital_addition"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("capital_redemption"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("lockup"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("hurdle_rate"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("high_watermark"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("typical_net_exposure_low"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("typical_net_exposure_high"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("typical_percent_long_low"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("typical_percent_long_high"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("currency_class"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("location_of_components"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("open_to_investment"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("assets_in_strategy"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("investment_market"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("investment_style"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("investment_geography"))); ?>
+        	<?php echo $this->partial("elements/basic_form_group.phtml", array("element"=>$form->getElement("lehman_hfn_index_participant"))); ?>
+        </div>
+        <div class="tab-pane fade" id="people">
+        	<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("legal_counsel_fname"), $form->getElement("legal_counsel_lname"), $form->getElement("legal_counsel_title")), "required"=>false, "label_name"=>"Legal Counsel")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("administrator_fname"), $form->getElement("administrator_lname"), $form->getElement("administrator_title")), "required"=>false, "label_name"=>"Administrator")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("custodian_fname"), $form->getElement("custodian_lname"), $form->getElement("custodian_title")), "required"=>false, "label_name"=>"Custodian")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("accountant_fname"), $form->getElement("accountant_lname"), $form->getElement("accountant_title")), "required"=>false, "label_name"=>"Accountant")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("prime_broker_fname"), $form->getElement("prime_broker_lname"), $form->getElement("prime_broker_title")), "required"=>false, "label_name"=>"Prime Broker")); ?>
+			<?php echo $this->partial("elements/basic_form_inline_group.phtml", array("elements"=>array($form->getElement("prime_broker_fname"), $form->getElement("prime_broker_lname"), $form->getElement("prime_broker_title")), "required"=>false, "label_name"=>"Prime Broker")); ?>
+			
+        </div>
+      
+      </div>
+
+</form>

@@ -1,0 +1,153 @@
+<?php
+	$months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+?>
+<div class="portfolio-step-header">
+	<div class="row">
+		<h1>Update LIBOR Values</h1>
+	</div>
+</div>
+<div class="row">
+	<ol class="breadcrumb">
+		<li>
+			<a href="/"> <i class="icon-home"></i> Home</a>
+		</li>
+		<li class="active">
+			<i class="icon-table"></i> LIBOR
+		</li>
+	</ol>
+</div>
+<div class="row">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			3 Month LIBOR
+		</div>
+		<div class="panel-body">
+			<div class="alert alert-info">
+		        <strong>Heads up!</strong> Please enter numerical values. Values are auto-saved after blur.  
+		      </div>
+    		<table class="table table-bordered table-hover table-striped">
+        		<thead>
+					<tr>
+						<th>Year</th>
+						<?php
+							foreach($months as $month){
+								?>
+								<th><?php echo $month?></th>
+								<?php
+							}
+						?>
+						<th>Total</th>
+					</tr>
+				</thead>
+    			<tbody>
+        			<?php
+	        			$start = intval(date("Y"))+2;
+	        			for($i=$start;$i>=1999;$i--){
+	        				$total = 0;
+	        				
+	        				?>
+	        				<tr>
+	        					<td><?php echo $i?></td>
+	        					<?php
+	        					
+									foreach($months as $month){?>
+										<?php
+											$value = "";
+											foreach($this->three_month_libor as $libor){
+												if ($libor["month"]==$month&&$libor["year"]==$i&&$libor["type"]=="3 Month LIBOR"){
+													$value = number_format($libor["value"], 2);
+													$total += $libor["value"];
+													break;
+												}
+											}
+										?>
+										<td><input type="text" class="form-control libor_value" data-type="3 Month LIBOR" data-month="<?php echo $month?>" data-year="<?php echo $i?>" value="<?php echo $value?>"/></td>
+										<?php
+									}?>
+								<td><strong><?php echo number_format($total, 2)?></strong></td>
+	        				</tr>
+	        				<?php
+	        			}
+	        		?>	
+    			</tbody>
+    			<tfoot>
+					<th>Year</th>
+					<?php
+						foreach($months as $month){
+							?>
+							<th><?php echo $month?></th>
+							<?php
+						}
+					?>
+    			</tfoot>
+    		</table>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			6 Month LIBOR
+		</div>
+		<div class="panel-body">
+			<div class="alert alert-info">
+		        <strong>Heads up!</strong> Please enter numerical values. Values are auto-saved after blur.  
+		      </div>
+    		<table class="table table-bordered table-hover table-striped">
+        		<thead>
+					<tr>
+						<th>Year</th>
+						<?php
+							foreach($months as $month){
+								?>
+								<th><?php echo $month?></th>
+								<?php
+							}
+						?>
+						<th>Total</th>
+					</tr>
+				</thead>
+    			<tbody>
+        			<?php
+	        			$start = intval(date("Y"))+2;
+	        			for($i=$start;$i>=1999;$i--){
+	        				$total = 0;
+	        				?>
+	        				<tr>
+	        					<td><?php echo $i?></td>
+	        					<?php
+	        					
+									foreach($months as $month){?>
+										<?php
+											$value = "";
+											foreach($this->three_month_libor as $libor){
+												if ($libor["month"]==$month&&$libor["year"]==$i&&$libor["type"]=="6 Month LIBOR"){
+													$value = number_format($libor["value"], 2);
+													$total += $libor["value"];
+													break;
+												}
+											}
+										?>
+										<td><input type="text" class="form-control libor_value"  data-type="6 Month LIBOR" data-month="<?php echo $month?>" data-year="<?php echo $i?>" value="<?php echo $value;?>"/></td>
+										<?php
+									}?>
+								<td><strong><?php echo number_format($total, 2)?></strong></td>
+	        				</tr>
+	        				<?php
+	        			}
+	        		?>	
+    			</tbody>
+    			<tfoot>
+					<th>Year</th>
+					<?php
+						foreach($months as $month){
+							?>
+							<th><?php echo $month?></th>
+							<?php
+						}
+					?>
+    			</tfoot>
+    		</table>
+		</div>
+	</div>
+</div>

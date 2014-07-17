@@ -1,0 +1,166 @@
+<?php
+	$count = $this->count;
+	$rows = 50;
+	$page = ceil($count/$rows);
+	
+	$start_page = ($this->current_page-1)*$rows;
+	$end_page = $start_page + $rows;
+	
+	if (($this->current_page-1)>1){
+		$prev_page = $this->current_page - 1;
+	}else{
+		$prev_page = 1;
+		$disabled_prev = "disabled";
+	}
+	
+	if (($this->current_page+1)<=$page){
+		$next_page = $this->current_page+1;
+	}else{
+		$next_page = $page;
+	}
+
+	if ($this->count == 0){
+		$start_page = 0;
+	}else{
+		$start_page += 1;
+	}
+	
+	
+	if ($count<$rows){
+		$end_page = $count;
+	}
+	
+	
+?>
+
+
+<div class="row">
+	<h1>Hedge Funds</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/"> <i class="icon-home"></i> Home</a>
+		</li>
+		<li class="active">
+			<i class="icon-table"></i> Hedge Funds
+		</li>
+	</ol>
+</div>
+		<!--
+		<div class="alert alert-info alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		We're using <a class="alert-link" href="http://tablesorter.com/docs/">Tablesorter 2.0</a> for the sort function on the tables. Read the documentation for more customization options or feel free to use something else!
+		</div>
+		</div>
+		-->
+<div id="save_result" class="row"></div>
+
+<div class="row" style="overflow: hidden;margin-bottom: 15px;">
+	<div class="pull-right">
+		<form class="form-inline" role="form" action="/hedgefunds/">
+			<a href="#">Advanced Search</a>&nbsp;<input type="search" name="q" style="width:200px" placeholder="Enter Name of Fund" class="form-control"/>
+			<button type="submit" class="btn btn-primary">Search</button>
+		</form>
+	</div>
+	<a href="/hedgefunds/setup/" class="btn btn-default"><span class="icon-plus-sign"></span> Add New Fund</a>
+</div>
+		
+<div class="row">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			List of Hedge Funds
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<div>
+					<ul class="pagination pull-right" style="margin-top:0;margin-bottom:5px">
+					   <?php
+						if ($this->query){
+							?>
+							  <li><a href="/hedgefunds/?page=<?php echo $prev_page?>&<?php echo $this->query?>">&laquo;</a></li>					
+							<?php
+						}else{
+							?>
+								<li><a href="/hedgefunds/?page=<?php echo $prev_page?>">&laquo;</a></li>
+							<?php
+						}					  	
+					  ?>
+					  <?php 
+					  	for($i=1;$i<=$page;$i++){
+					  		if ($i==$this->current_page){
+						  		if ($this->query){
+						  			?>
+						  			<li class="active"><a href="/hedgefunds/?page=<?php echo $i?>&<?php echo $this->query?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}else{
+						  			?>
+						  			<li class="active"><a href="/hedgefunds/?page=<?php echo $i?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}				  			
+					  		}else{
+						  		if ($this->query){
+						  			?>
+						  			<li><a href="/hedgefunds/?page=<?php echo $i?>&<?php echo $this->query?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}else{
+						  			?>
+						  			<li><a href="/hedgefunds/?page=<?php echo $i?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}		
+					  		}
+					  		
+	
+					  	}
+					  
+					  ?>
+					  <?php
+						if ($this->query){
+							?>
+							  <li><a href="/hedgefunds/?page=<?php echo $next_page?>&<?php echo $this->query?>">&raquo;</a></li>					
+							<?php
+						}else{
+							?>
+								<li><a href="/hedgefunds/?page=<?php echo $next_page?>">&raquo;</a></li>
+							<?php
+						}					  	
+					  ?>
+					</ul>
+					<p class="pull-left">Showing <?php echo $start_page?> - <?php echo $end_page?> out of <?php echo $this->count?> record(s)</p>
+					
+				</div>
+				
+				
+				<table class="table table-bordered table-hover table-striped tablesorter" id="hedge_funds_table">
+					<thead>
+						<tr>
+							<th width="3%">#</th>
+							<th>Name of Fund</th>
+							<th width="10%">Date Created</th>
+							<th width="10%">Last Updated</th>
+							<th width="15%">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$i = 1;
+						foreach($this->hedge_funds as $hedgeFund){
+													?>
+						<tr>
+							<td><?php echo $i;?></td>
+							<td><?php echo $hedgeFund["fund_name"]
+							?></td>
+							<td><?php echo date("F d, Y", strtotime($hedgeFund["date_created"]))
+							?></td>
+							<td><?php echo date("F d, Y", strtotime($hedgeFund["date_updated"]))
+							?></td>
+							<td><a href="/hedgefunds/update?id=<?php echo $hedgeFund["id"]?>" class="btn btn-xs btn-primary">Update</a> <a href="/hedgefunds/view/?fund_id=<?php echo $hedgeFund["id"]?>" class="btn btn-xs btn-primary">View</a> <a href="/hedgefunds/delete?id=<?php echo $hedgeFund["id"]?>" class="btn btn-xs btn-danger delete_fund">Delete</a></td>
+						</tr>
+						<?php
+						$i++;
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

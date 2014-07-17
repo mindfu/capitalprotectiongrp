@@ -1,0 +1,302 @@
+<?php
+	$count = $this->count;
+	$rows = 50;
+	$page = ceil($count/$rows);
+	
+	$start_page = ($this->current_page-1)*$rows;
+	$end_page = $start_page + $rows;
+	
+	if (($this->current_page-1)>1){
+		$prev_page = $this->current_page - 1;
+	}else{
+		$prev_page = 1;
+		$disabled_prev = "disabled";
+	}
+	
+	if (($this->current_page+1)<=$page){
+		$next_page = $this->current_page+1;
+	}else{
+		$next_page = $page;
+	}
+
+	if ($this->count == 0){
+		$start_page = 0;
+	}else{
+		$start_page += 1;
+	}
+	
+	
+	if ($count<$rows){
+		$end_page = $count;
+	}
+	
+	
+?>
+<div class="row">
+	<h1>Subsets</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/"> <i class="icon-home"></i> Home</a>
+		</li>
+		<li class="active">
+			<i class="icon-table"></i> Subsets
+		</li>
+	</ol>
+</div>
+<div id="save_result" class="row"></div>
+
+<div class="row" style="overflow: hidden;margin-bottom: 15px;">
+	<div class="pull-right">
+		<form class="form-inline" role="form" action="/subsets/">
+			<a href="#">Advanced Search</a>&nbsp;<input type="search" name="q" style="width:200px" placeholder="Enter Name of Subset" class="form-control"/>
+			<button type="submit" class="btn btn-primary">Search</button>
+		</form>
+	</div>
+	<a href="#" class="btn btn-default" id="add_new_subset"><span class="icon-plus-sign"></span> Add New Subset</a>
+</div>
+		
+<div class="row">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			List of Subsets
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<div>
+					<ul class="pagination pull-right" style="margin-top:0;margin-bottom:5px">
+					   <?php
+						if ($this->query){
+							?>
+							  <li><a href="/subsets/?page=<?php echo $prev_page?>&<?php echo $this->query?>">&laquo;</a></li>					
+							<?php
+						}else{
+							?>
+								<li><a href="/subsets/?page=<?php echo $prev_page?>">&laquo;</a></li>
+							<?php
+						}					  	
+					  ?>
+					  <?php 
+					  	for($i=1;$i<=$page;$i++){
+					  		if ($i==$this->current_page){
+						  		if ($this->query){
+						  			?>
+						  			<li class="active"><a href="/subsets/?page=<?php echo $i?>&<?php echo $this->query?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}else{
+						  			?>
+						  			<li class="active"><a href="/subsets/?page=<?php echo $i?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}				  			
+					  		}else{
+						  		if ($this->query){
+						  			?>
+						  			<li><a href="/subsets/?page=<?php echo $i?>&<?php echo $this->query?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}else{
+						  			?>
+						  			<li><a href="/subsets/?page=<?php echo $i?>"><?php echo $i?> <span class="sr-only">(current)</span></a></li>
+						  			<?php
+						  		}		
+					  		}
+					  		
+	
+					  	}
+					  
+					  ?>
+					  <?php
+						if ($this->query){
+							?>
+							  <li><a href="/subsets/?page=<?php echo $next_page?>&<?php echo $this->query?>">&raquo;</a></li>					
+							<?php
+						}else{
+							?>
+								<li><a href="/subsets/?page=<?php echo $next_page?>">&raquo;</a></li>
+							<?php
+						}					  	
+					  ?>
+					</ul>
+					<p class="pull-left">Showing <?php echo $start_page?> - <?php echo $end_page?> out of <?php echo $this->count?> record(s)</p>
+					
+				</div>
+				
+				
+				<table class="table table-bordered table-hover table-striped tablesorter" id="subsets_table">
+					<thead>
+						<tr>
+							<th width="3%">#</th>
+							<th>Name of Subset</th>
+							<th>Debt</th>
+							<th>Equity</th>
+							
+							<th width="5%"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$i = 1;
+						foreach($this->subsets as $subset){
+													?>
+						<tr>
+							<td><?php echo $i;?></td>
+							<td><?php echo $subset["subset_name"]?></td>
+							<td><?php echo number_format($subset["debt"], 2)?></td>
+							<td><?php echo number_format($subset["equity"], 2)?></td>
+							
+							<td><button class="btn btn-xs btn-primary update_subset" data-id="<?php echo $subset["id"]?>">Update</button></td>
+							
+						</tr>
+						<?php
+						$i++;
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="myModal" class="modal fade">
+	<form role="form" action="/subsets/create" method="post">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title">Add New Subset</h4>
+				</div>
+				<div class="modal-body">
+					
+					<div class="form-group">
+						<label for="inputName">Name</label>
+						<div class="form-inline">
+							<?php echo $this->form->subset_name->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Leverage Ratio</label>
+						<div class="form-inline">
+							<?php echo $this->form->leverage_ratio_id->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<?php
+					/*
+					<div class="form-group">
+						<label for="inputName">Number of Fund Units</label>
+						<div class="form-inline">
+							<?php echo $this->form->number_of_funds_units->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Fund Weight</label>
+						<div class="form-inline">
+							<?php echo $this->form->fund_weight->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Debt</label>
+						<div class="form-inline">
+							<?php echo $this->form->debt->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Equity</label>
+						<div class="form-inline">
+							<?php echo $this->form->equity->renderViewHelper()?>
+							
+						</div>
+					</div>
+					*/
+					?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						Close
+					</button>
+					<button id="add_subset" type="submit" class="btn btn-primary">
+						Save
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</form>
+</div><!-- /.modal -->
+
+<div id="myUpdateModal" class="modal fade">
+	<form role="form" action="/subsets/update" method="post">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title">Update Subset</h4>
+				</div>
+				<div class="modal-body">
+					<?php echo $this->update_form->id->renderViewHelper()?>
+							
+					<div class="form-group">
+						<label for="inputName">Name</label>
+						<div class="form-inline">
+							<?php echo $this->update_form->subset_name->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Leverage Ratio</label>
+						<div class="form-inline">
+							<?php echo $this->update_form->leverage_ratio_id->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<?php
+					/*
+					<div class="form-group">
+						<label for="inputName">Number of Fund Units</label>
+						<div class="form-inline">
+							<?php echo $this->update_form->number_of_funds_units->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Fund Weight</label>
+						<div class="form-inline">
+							<?php echo $this->update_form->fund_weight->renderViewHelper()?>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Debt</label>
+						<div class="form-inline">
+							<?php echo $this->update_form->debt->renderViewHelper()?>
+							
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputName">Equity</label>
+						<div class="form-inline">
+							<?php echo $this->update_form->equity->renderViewHelper()?>
+							
+						</div>
+					</div>
+					*/
+					?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						Close
+					</button>
+					<button id="update_subset" type="submit" class="btn btn-primary">
+						Save
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</form>
+</div><!-- /.modal -->
+

@@ -1,0 +1,108 @@
+<?php 
+
+$ratios = $this -> ratios;
+$template = $this->template;
+
+?>
+
+<div class="row">
+	<h1>Update Template</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/"> <i class="icon-home"></i> Home</a>
+		</li>
+		<li>
+			<a href="/templates/"><i class="icon-table"></i> Templates</a>
+		</li>
+		<li class="active">
+			Update Template
+		</li>
+	</ol>
+</div>
+<div class="alert alert-info">
+	<strong>Heads up!</strong> Enter the required information to get started.
+</div>
+<div class="row">
+	<form action="/templates/save" method="POST" id="update-template-form">
+		<input type="hidden" name="id" value="<?php echo $template["id"]?>"/>
+		<div class="form-group">
+			<div id="save_result"></div>
+			<div class="container-fluid clear-fix" style="clear:both;margin-bottom:15px;">
+				<button class="btn btn-primary" type="submit">Update Template</button>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputName" class="col-sm-2">Template Name:</label>
+			<div class="col-sm-6">
+				<input type="text" name="subset_name" placeholder="Enter Template Name" class="form-control" value="<?php echo $template["name"]?>"/>
+			</div>
+		</div>
+		<br/>
+		<div class="form-group line-seperator">
+			<label for="inputName" class="col-sm-2">Leverage Ratio:</label>
+			<div class="col-sm-6">
+				<select name="selected_leverage_ratio_id" class="form-control">
+					<?php
+					foreach($ratios as $ratio){
+						
+						if ($template["leverage_ratio_id"]==$ratio->id){
+							$selected = "selected='selected'";
+						}else{
+							$selected = "";
+						}
+						if ($ratio->debt==0){
+							$label = $ratio->debt." : ".$ratio->equity." (Unleveraged)";	
+						}else{
+							$label = $ratio->debt." : ".$ratio->equity."";
+						}
+						?>
+						<option value="<?php echo $ratio->id?>" <?php echo $selected?>><?php echo $label?></option/>
+						<?php
+					}?>
+				</select>
+			</div>
+		</div>
+		<fieldset>
+			<legend>
+				Template Entries
+			</legend>
+			<div class="template-list">
+				<div class="form-group template-item line-seperator">
+					<!--
+					<label class="col-sm-3 col-md-3">Ratio</label>
+					-->
+					<div class="col-sm-2 col-md-2"><strong>Subset Name</strong>
+					</div>
+					<div class="col-sm-2 col-md-2"><strong>Fund Units</strong>
+					</div>
+					<div class="col-sm-2 col-md-2"><strong>Fund Weight</strong>
+					</div>
+					
+				</div>
+				<?php
+				foreach($ratios as $ratio){
+					foreach($template["items"] as $template_item){
+						if ($template_item["leverage_ratio_id"]==$ratio->id){
+							?>
+							<div class="form-group template-item">
+								<input type="hidden" name="leverage_ratio_id[]" value="<?php echo $ratio->id?>"/>
+								<input type="hidden" name="template_id[]" value="<?php echo $template_item["id"]?>"/>
+								<div class="col-sm-2 col-md-2">
+									<input type="text" class="form-control" name="name[]" placeholder="Subset Name" value="<?php echo $template_item["name"]?>"/>
+								</div>
+								<div class="col-sm-2 col-md-2">
+									<input type="text" class="form-control" name="number_of_fund_units[]" placeholder="Fund Units" value="<?php echo $template_item["number_of_fund_units"]?>"/>
+								</div>
+								<div class="col-sm-2 col-md-2">
+									<input type="text" class="form-control" name="fund_weight[]" placeholder="Fund Weight" value="<?php echo $template_item["fund_weight"]?>"/>
+								</div>
+							</div>
+							<?php
+						}
+					}
+				}
+				?>
+			</div>
+		</fieldset>
+	</form>
+</div>

@@ -1,0 +1,103 @@
+<?php
+	$templates = $this->templates;
+?>
+<div class="row">
+	<h1>Templates</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/"> <i class="icon-home"></i> Home</a>
+		</li>
+		<li class="active">
+			<i class="icon-table"></i> Templates
+		</li>
+	</ol>
+</div>
+<div class="row" style="overflow: hidden;margin-bottom: 15px;">
+	<a href="/templates/setup/" class="btn btn-default"><span class="icon-plus-sign"></span> Add New Template</a>
+</div>
+<?php
+	if (!empty($templates)){
+		foreach($templates as $template){
+			?>
+			<div class="row">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<div class="pull-right"><a href="/templates/update/?id=<?php echo $template["id"]?>" class="btn btn-xs btn-default">Update</a></div>
+						<strong>Template</strong> : <?php echo $template["name"]?> for <?php echo $template["leverage"]["debt"]." : ".$template["leverage"]["equity"]?>
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<table class="table table-bordered table-hover table-striped tablesorter template_table">
+								<thead>
+									<tr>
+										<th>Subset Name</th>
+										<th># of Fund Units</th>
+										<th>Fund Weight</th>
+										<th>Group Weight</th>
+										<th>Debt</th>
+										<th>Equity</th>
+										<th>Weight</th>
+										<th>Total Equity</th>
+										<th>Total Debt</th>
+										<th>Total</th>
+										<th>Group % of Portfolio</th>
+										<th>Each Fund % of Portfolio</th>
+										<th>Each Fund % of Equity</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+										$total_portfolio_weight = 0;
+										$total_total_equity = 0;
+										foreach($template["items"] as $item){
+											$total_equity = $item["leverage"]["equity"]*$item["number_of_fund_units"];
+											$total_debt = $item["leverage"]["debt"]*$item["number_of_fund_units"];
+											$total_portfolio_weight += $total_debt+$total_equity;
+											$total_total_equity += $total_equity;
+										}
+											
+									
+										foreach($template["items"] as $item){
+											$group_weight = $item["number_of_fund_units"]*$item["fund_weight"];
+											$weight = $item["leverage"]["debt"]+$item["leverage"]["equity"];
+											$total_equity = $item["leverage"]["equity"]*$item["number_of_fund_units"];
+											$total_debt = $item["leverage"]["debt"]*$item["number_of_fund_units"];
+											$total = $total_debt+$total_equity;
+											$group_percentage_portfolio_weight = $total/$total_portfolio_weight;
+											if ($total>0){
+												$each_fund_percentage_portfolio = $weight/$total_portfolio_weight;
+											}else{
+												$each_fund_percentage_portfolio = 0;
+											}
+											$each_fund_percentage_equity = $total_equity/$total_total_equity;
+											?>
+											<tr>
+												<td><?php echo $item["name"]?></td>
+												<td><?php echo $item["number_of_fund_units"]?></td>
+												<td><?php echo $item["fund_weight"]?></td>
+												<td><?php echo $group_weight;?></td>
+												<td><?php echo $item["leverage"]["debt"]?></td>
+												<td><?php echo $item["leverage"]["equity"]?></td>
+												<td><?php echo $weight?></td>
+												<td><?php echo $total_equity?></td>
+												<td><?php echo $total_debt?></td>
+												<td><?php echo $total?></td>
+												<td><?php echo number_format($group_percentage_portfolio_weight*100, 2)?> %</td>
+												<td><?php echo number_format($each_fund_percentage_portfolio*100, 2)?> %</td>
+												<td><?php echo number_format($each_fund_percentage_equity*100, 2)?> %</td>
+											</tr>
+											<?php	
+										}
+									?>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<?php
+		}
+	}
+?>

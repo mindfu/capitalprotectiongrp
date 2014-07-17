@@ -1,0 +1,357 @@
+<?php
+$portfolio = $this->portfolio;
+?>
+<div class="row">
+	<div class="col-lg-12">
+		<h1><?php echo $portfolio["name"]?></h1>
+		<ol class="breadcrumb">
+			<li>
+				<a href="/"> <i class="icon-home"></i> Home</a>
+			</li>
+			<li>
+				<a href="/portfolio/"><i class="icon-table"></i> Portfolios</a>
+			</li>
+			<li class="active">
+				<i class="icon-table"></i> View Portfolio
+			</li>
+		</ol>
+	</div>
+</div>
+<div class="row">
+	<div class="panel panel-default">
+		<div class="panel-heading">Portfolio Information</div>
+		<div class="panel-body" style="overflow: hidden">
+			<div class="form-group">
+					<div class="col-lg-4">
+						<label>Initial Equity Investment</label>
+					</div>
+					<div class="col-lg-8">
+						$ <?php echo number_format((float)$portfolio["initial_equity"], 0, '.', ',')?>
+					</div>
+				</div>					
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Leverage</label>
+					</div>
+					<div class="col-lg-8">
+						<?php echo $portfolio["leverage"]?>
+					</div>
+				</div>		
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Debt:Equity</label>
+					</div>
+					<div class="col-lg-8">
+						$ <?php echo number_format($portfolio["ratio_debt_initial_investment"],0,'.', ',')?> : $ <?php echo number_format($portfolio["ratio_equity_initial_investment"], 0, '.', ',')?> 
+					</div>
+				</div>		
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Total Investment</label>
+					</div>
+					<div class="col-lg-8">
+						$ <?php echo number_format($portfolio["total_leveraged_initial_investment"], 0, '.', ',')?>
+					</div>
+				</div>		
+							
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Leverage Bank Cost (in Basis points Annually)</label>
+					</div>
+					<div class="col-lg-8">
+						<?php echo $portfolio["leverage_bank_cost"]?>
+					</div>
+				</div>					
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Additional Leverage Bank Costs (additional fees)</label>
+					</div>
+					<div class="col-lg-8">
+						<?php echo $portfolio["additional_leverage_bank_cost"]?>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Bank Leverage</label>
+					</div>
+					<div class="col-lg-8">
+						<?php echo $portfolio["bank_leverage"]?>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Show results net of Fund of Funds fees </label>
+					</div>
+					<div class="col-lg-8">
+						<?php echo $portfolio["show_results_net_fund"]?>
+					</div>
+				</div>			
+				
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Fund of Funds Management fee</label>
+					</div>
+					<div class="col-lg-8">
+						<?php echo number_format((float)$portfolio["fund_of_funds_management_fee"], 0, '.', ',')?> %
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-lg-4">
+						<label>Fund of Funds Performance fee</label>
+					</div>
+					<div class="col-lg-8">
+						<?php echo number_format((float)$portfolio["fund_of_funds_performance_fee"], 0, '.', ',')?> %
+					</div>
+				</div>
+				
+		</div>
+	</div>
+</div>
+
+
+<ul class="nav nav-tabs" id="portfolio-tabs">
+  <li class="active"><a href="#general" data-toggle="tab">General Information</a></li>
+  <li><a href="#monthly-fund-analysis" data-toggle="tab">Monthly Fund Analysis</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="general">
+  	<!-- general -->
+  	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">Selected Subset Based on Basis Points</div>
+			<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th></th>
+							<th># of Funds</th>
+							<th># of Fund Units</th>
+							<th>Debt</th>
+							<th>Equity</th>
+							<th>Total</th>
+							<th>Ratio</th>
+							<th>Equity %</th>
+							<th>Fund Weight</th>
+							<th>Ave. Initial<br/>Fund Investment</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$subsets = $this->subsets;
+						foreach($subsets as $subset){
+							?>
+							<tr>
+								<td><?php echo $subset["subset_name"]?></td>
+								<td><?php echo intval($subset["number_of_funds"])?></td>
+								<td><?php echo $subset["number_of_funds_units"]?></td>
+								<td>$ <?php echo number_format((float)$subset["calculated_debt"], 0, '.', ',')?></td>
+								<td>$ <?php echo number_format((float)$subset["calculated_equity"], 0, '.', ',')?></td>
+								<td>$ <?php echo number_format((float)($subset["calculated_total"]), 0, '.', ',')?></td>
+								<td><?php echo number_format((float)$subset["debt"],0 , '.', '')?>:<?php echo number_format((float)$subset["equity"], 0, '.', '')?></td>
+								<td><?php echo number_format((float)$subset["equity_percentage"], 0, '.', ',')?> %</td>
+								<td><?php echo $subset["debt"]+$subset["equity"]?></td>
+								<td>$ <?php echo number_format((float)$subset["average_initial_fund_investment"], 0, '.', ',')?></td>
+							</tr>
+								
+							<?php
+						}
+						?>
+						
+					</tbody>
+				</table>	
+		</div>
+	</div>
+	
+	
+	<?php
+		$subsets = $this->subsets;
+		foreach($subsets as $subset){
+		?>	
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">Funds of  <?php echo $subset["subset_name"]?></div>
+				<table class="table table-condensed">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Active</th>
+								<th>Category</th>
+								<th>Total Debt+Equity Exposure</th>
+								<th>Fund % of Portfolio</th>
+								<th>Weight Variable</th>
+								<th>Weight Fixed</th>
+								<th>Temp Weight Variable</th>
+								<th>Total Initial Investment</th>
+								<th>Multiplier</th>
+								<th>Debt</th>
+								<th>Equity</th>
+								<th>Units</th>
+								<th>% in Initial Equity</th>
+								<th>Initial Investment in Equity</th>
+								<th>% in Initial Debt</th>
+								<th>Initial Investment in Debt</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+								foreach($subset["funds"] as $fund){
+									?>
+										<tr>
+											<td><?php echo $fund["name"]?></td>
+											<td>
+											<?php 
+												if ($fund["number_of_fund"]>0){
+													echo "Active";
+												}else{
+													echo "Inactive";
+												}
+											?>	
+											</td>
+	
+											<td><?php echo $fund["category"]?></td>
+											<td><?php echo number_format((float)$fund["total_debt_equity_exposure"], 2, '.', ',')?>%</td>
+											<td><?php echo number_format((float)$fund["each_fund_percentage_of_portfolio"],2, '.', ',')?>%</td>
+											<td><?php echo number_format((float)$fund["weight_variable"], 2, '.', ',')?></td>
+											<td>$ <?php echo number_format((float)$fund["weight_fixed"], 2, '.', ',')?></td>
+											<td><?php echo number_format((float)$fund["temp_weight"], 2, '.', ',')?></td>
+											
+											<td>$ <?php echo number_format((float)$fund["initial_investment"], 0, '.', ',')?></td>
+											<td><?php echo ($subset["debt"]*100)+($subset["equity"]*100)?></td>
+											<td><?php echo $subset["debt"]*100?></td>
+											<td><?php echo $subset["equity"]*100?></td>
+											<td><?php echo number_format((float)$fund["unit"], 2, '.', ',')?></td>
+											<td><?php echo number_format((float)$fund["percentage_initial_equity"], 2, '.', ',')?> %</td>
+											<td>$ <?php echo number_format((float)$fund["initial_investment_in_equity"], 0, '.', ',')?></td>
+											<td><?php echo number_format((float)$fund["percentage_initial_debt"], 2, '.', ',')?> %</td>
+											<td>$ <?php echo number_format((float)$fund["initial_investment_in_debt"], 0, '.', ',')?></td>
+											
+										</tr>
+									<?php
+								}
+							?>
+						</tbody>
+					</table>	
+				</div>
+			</div>
+		
+		<?php	
+		}
+	?>
+  	<!-- /general -->
+  </div>
+  <div class="tab-pane" id="monthly-fund-analysis">
+  	<!-- monthly analysis form -->
+  	<div class="panel panel-default row">
+  		<div class="panel-heading">View Monthly Fund Analysis Display</div>
+  		<div class="panel-body">
+  			<form id="monthly-fund-analysis-form" role="form" method="POST" class="col-xs-4">
+		  		<input type="hidden" name="portfolio_id" value="<?php echo $portfolio["id"]?>"/>
+		  		<div class="form-group">
+					<label class="form-label">Select Subset</label>
+		  		<?php
+					$subsets = $this->subsets;
+					foreach($subsets as $subset){
+						?>
+						<div class="checkbox">
+					        <label>
+					          <input type="checkbox" value="<?php echo $subset["id"]?>" name="subset_id[]">
+					          <?php echo $subset["name"]?>
+					        </label>
+					      </div>
+						<?php
+					}
+				?>
+				</div>
+		  		<div class="form-group">
+					<label class="form-label">Select Leverage Scenario</label>
+					<div>
+						<select name="leverage_ratio_id" class="form-control">
+							<option value="">Select Scenario</option>
+							<?php
+								foreach($this->ratios as $ratio){
+									?>
+									<option value="<?php echo $ratio->id?>">
+										<?php
+										$label = "";
+										if ($ratio->debt==0){
+											$label = number_format($ratio->equity, 2)." : ".number_format($ratio->debt, 2)." (Unleveraged)";
+										}else{
+											$label = number_format($ratio->equity, 2)." : ".number_format($ratio->debt, 2);
+										}
+										echo $label?>
+									</option>
+									<?php
+								}
+							?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default">Show Monthly Analysis Display</button>
+				</div>
+		  	</form>
+  		</div>
+  	</div>
+  	<!-- /monthly analysis form -->
+  	<!-- monthly analysis report -->
+  	<div id="monthly-analysis-report-div"></div>
+  	<!-- /monthly analysis report -->
+  </div>
+</div>
+
+
+
+<script type="text/x-handlebars-template" id="fund-rows">
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading"><a href="/hedgefunds/view/?fund_id={{id}}" target="_blank">{{fund_name}}</a></div>
+			
+			<div class="panel-body">
+				<p>Located in: </p>
+				<ul>
+				{{#each portfolios}}
+					<li><a href='/portfolio/calculate/?id={{portfolio_id}}' target="_blank">{{name}}</a></li>
+				{{/each}}									
+				</ul>
+				
+				<table class="table table-responsive table-bordered table-striped table-hover ">
+					<thead>
+						<tr>
+							
+							<th>Year</th>
+							<th>Leverage</th>
+							<th>Sharpe</th>
+							<th>Return</th>
+							{{#each months}}
+								<th>{{this}}</th>
+							{{/each}}
+						</tr>
+					</thead>
+					<tbody>
+						{{#each sharpes}}
+							{{#if sharpe}}
+								{{#if performances}}
+									<tr>
+										<td>{{year}}</td>
+										<td>{{leverage}}</td>
+										<td>{{sharpe}}</td>
+										<td>{{average_return}}</td>
+										{{#each performances}}
+											<td>{{value}}</td>
+										{{/each}}
+									</tr>
+								{{/if}}
+							{{/if}}
+						{{/each}}
+					</tbody>
+				</table>
+				
+				
+			</div>
+		</div>
+	
+	</div>
+	
+</script>

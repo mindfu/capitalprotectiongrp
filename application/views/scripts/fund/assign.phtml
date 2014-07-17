@@ -1,0 +1,223 @@
+<?php $portfolio = $this -> portfolio;?>
+<div class="row">
+	<div class="col-lg-12">
+		<h1>Portfolios</h1>
+		<ol class="breadcrumb">
+			<li>
+				<a href="/"> <i class="icon-home"></i> Home</a>
+			</li>
+			<li>
+				<a href="/portfolio"> <i class="icon-table"></i> Portfolios</a>
+			</li>
+		</ol>
+	</div>
+</div>
+<div id="save_result" class="row"></div>
+<div class="row" style="overflow: hidden;margin-bottom: 15px;">
+	<a href="#" id="add_new_fund" class="btn btn-default">Assign New Fund</a> 
+	<a href="/portfolio/update/?id=<?php echo $portfolio["id"]?>" class="btn btn-default">Update Portfolio</a>
+	<a href="/portfolio/calculate/?id=<?php echo $portfolio["id"]?>" class="btn btn-default">View Portfolio</a>
+	
+</div>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		Assign funds to <strong><?php echo $portfolio["name"]?></strong>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+	
+	<table class="table table-bordered table-hover table-striped tablesorter">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name of Fund</th>
+				<th>Subset</th>
+				<th>Active</th>
+				<th>Category</th>
+				<th>Weight Variable</th>
+				<th>Weight Fixed</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php
+foreach($portfolio["funds"] as $key=>$fund){
+			?>
+			<tr>
+				<td><?php echo $key+1
+				?></td>
+				<td><?php echo $fund["name"]
+				?></td>
+				<td><?php echo $fund["subset"]
+				?></td>
+				<td>
+					<?php 
+						if ($fund["number_of_fund"]>0){
+							echo "Active";
+						}else{
+							echo "Inactive";
+						}
+					?>
+				</td>
+				<td><?php echo $fund["category"]["name"]
+				?></td>
+				
+				
+				
+				<td><?php echo number_format((float)$fund["weight_variable"], 2, '.', '')
+				?></td>
+				<td><?php echo number_format((float)$fund["weight_fixed"], 2, '.', '')
+				?></td>
+				<td>
+				<button class="btn btn-xs btn-primary update_fund" data-id="<?php echo $fund["id"]?>">Edit</button>&nbsp;<button class="btn btn-xs btn-danger delete_fund" data-id="<?php echo $fund["id"]?>">Delete</a>
+				</td>
+			</tr>
+			<?
+			}
+			?>
+		</tbody>
+	</table>
+	</div>
+	</div>
+</div>
+
+<div id="myModal" class="modal fade">
+	<form role="form" action="/fund/add" method="post">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title">Add New Fund to <?php echo $portfolio["name"]
+					?></h4>
+				</div>
+				<div class="modal-body">
+					<?php echo $this->form->portfolio_id->renderViewHelper()
+					?>
+					<div class="form-group">
+						<label for="inputName">Name</label>
+						<div class="form-inline">
+							<?php echo $this->form->name->renderViewHelper()?><br/><br/>
+							<button type="button" id="search_name" class="btn btn-default"><span class="icon-search"></span> Search</button><br/><br/>
+							<select name="fund_id" class="form-control" id="fund_id_create">
+								<option value="">Please search and then select</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+							<label for="inputName" class="col-lg-3" style="margin-left:0;padding-left:0;">Active</label>
+							<div class="col-lg-9">
+							<?php echo $this->form->number_of_fund->renderViewHelper()
+							?>							
+							</div>		
+
+					</div>
+					<div class="form-group">
+						<label for="inputWeightFixed">Template</label>
+						<?php echo $this->form->template_id->renderViewHelper()
+						?>
+					</div>
+					<div class="form-group">
+						<label for="inputWeightFixed">Subset</label>
+						<?php echo $this->form->subset_id->renderViewHelper()
+						?>
+					</div>
+					
+					
+					
+					<div class="form-group">
+						<label for="inputWeightVariable">Weight Variable</label>
+						<?php echo $this->form->weight_variable->renderViewHelper()
+						?>
+					</div>
+					<div class="form-group">
+						<label for="inputWeightFixed">Weight Fixed</label>
+						<?php echo $this->form->weight_fixed->renderViewHelper()
+						?>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						Close
+					</button>
+					<button id="add_fund_submit" type="submit" class="btn btn-primary">
+						Add Fund
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</form>
+</div><!-- /.modal -->
+<div id="myUpdateModal" class="modal fade">
+	<form role="form" action="/fund/update" method="post">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title">Update Fund</h4>
+				</div>
+				<div class="modal-body">
+					<?php echo $this->update_form->id->renderViewHelper()
+					?>
+					<?php echo $this->update_form->portfolio_id->renderViewHelper()
+					?>
+					<div class="form-group">
+						<label for="inputName">Name</label>
+						<div class="form-inline">
+							<?php echo $this->update_form->name->renderViewHelper()?><br/><br/>
+							<button type="button" id="search_name_update" class="btn btn-default"><span class="icon-search"></span> Search</button><br/><br/>
+							<select name="fund_id" class="form-control" id="fund_id_update">
+								<option value="">Please search and then select</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+							<label for="inputName" class="col-lg-3" style="margin-left:0;padding-left:0">Active</label>
+							<div class="col-lg-9">
+							<?php echo $this->form->number_of_fund->renderViewHelper()
+							?>							
+							</div>	
+
+					</div>
+					<div class="form-group">
+						<label for="inputWeightFixed">Template</label>
+						<?php echo $this->update_form->template_id->renderViewHelper()
+						?>
+					</div>
+					<div class="form-group">
+						<label for="inputWeightFixed">Subset</label>
+						<?php echo $this->update_form->subset_id->renderViewHelper()
+						?>
+					</div>
+					<div class="form-group">
+						<label for="inputWeightVariable">Weight Variable</label>
+						<?php echo $this->update_form->weight_variable->renderViewHelper()
+						?>
+					</div>
+					<div class="form-group">
+						<label for="inputWeightFixed">Weight Fixed</label>
+						<?php echo $this->update_form->weight_fixed->renderViewHelper()
+						?>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">
+						Close
+					</button>
+					<button id="update_fund_submit" type="submit" class="btn btn-primary">
+						Update Fund
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</form>
+</div><!-- /.modal -->
+
+<script id="subset-item-template" type="text/x-handlebars-template">
+	<option value="{{id}}">{{name}}</option>
+</script>
+

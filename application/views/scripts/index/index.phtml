@@ -1,0 +1,81 @@
+<div class="portfolio-step-header">
+	<div class="container">
+		<h1>Setup Portfolio</h1>
+		<p>
+			Enter the basic information required to get started.
+		</p>
+	</div>
+</div>
+<div class="container">
+	<form class="form-horizontal col-lg-8 well" action="/portfolio/create" method="POST">
+		<div class="form-group">
+			<label for="inputName" class="col-lg-3 control-label">Name</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> name -> renderViewHelper();?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEquity" class="col-lg-3 control-label">Initial Equity Investment</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> initial_equity -> renderViewHelper();?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Leverage</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> leverage -> renderViewHelper();?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputLeverageBankCost" class="col-lg-3 control-label">Leverage Bank Cost </label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> leverage_bank_cost -> renderViewHelper();?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputAdditionalLeverageBankCost" class="col-lg-3 control-label">Additional Leverage Bank Costs</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> additional_leverage_bank_cost -> renderViewHelper();?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputBankLeverage" class="col-lg-3 control-label">Bank Leverage</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> bank_leverage -> renderViewHelper();?>
+				
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Show results net of Fund of Funds fees</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> show_results_net_fund -> renderViewHelper();?>
+				
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Fund of Funds Management fee</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> fund_of_funds_management_fee -> renderViewHelper();?>
+				
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Fund of Funds Performance fee</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> fund_of_funds_performance_fee -> renderViewHelper();?>
+				
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-lg-3 control-label">Leverage Ratio</label>
+			<div class="col-lg-9">
+				<?php echo $this -> form -> leverage_ratio_id -> renderViewHelper();?>
+				
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-lg-3"></div>
+			<div class="col-lg-9"><button type="submit" class="btn btn-primary">Save and Proceed</button></div>
+		</div>
+	</form>
+</div>

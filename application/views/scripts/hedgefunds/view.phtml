@@ -1,0 +1,439 @@
+<?php $fund = $this -> fund;
+$hedgefund = $fund["hedge_fund"];
+?>
+<div class="row">
+	<h1><?php echo $fund["name"]
+	?></h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="/"> <i class="icon-home"></i> Home</a>
+		</li>
+		<li>
+			<a href="/hedgefunds/"><i class="icon-table"></i> Hedge Funds</a>
+		</li>
+		<li class="active">
+			<i class="icon-table"></i><?php echo $fund["name"]
+			?>
+		</li>
+	</ol>
+</div>
+
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#basic-information" data-toggle="tab">Basic Information</a></li>
+  <li><a href="#performance" data-toggle="tab">Performance</a></li>
+</ul>
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="basic-information">
+	 <div class="row">
+		<div class="col-lg-3">
+			<div class="well">
+				<p>
+					<strong><?php echo $fund["name"]
+					?></strong>
+					<br/>
+					<address>
+						<?php echo $hedgefund["street_1"]
+						?> <?php echo $hedgefund["street_2"]
+						?><br/>
+						<?php echo $hedgefund["city"]
+						?>,
+						<?php echo $hedgefund["state"]
+						?>,
+						<?php echo $hedgefund["country"]
+						?>,
+						<?php echo $hedgefund["continent"]
+						?><br/>
+					</address>
+					<strong>phone: </strong><?php echo $hedgefund["phone"]
+					?><br/>
+					<strong>fax: </strong><?php echo $hedgefund["fax"]
+					?><br/>
+				</p>
+			</div>
+			<h3>People</h3>
+			<p>
+				<?php
+	if ($hedgefund["general_partner_id"]){
+				?>
+				<strong>General Partner: </strong><?php echo $hedgefund["general_partner_fname"]." ".$hedgefund["general_partner_lname"]." ".$hedgefund["general_partner_title"]
+				?><br/>
+				<?php }?>
+				<?php
+	if ($hedgefund["manager_id"]){
+				?>
+				<strong>Manager: </strong><?php echo $hedgefund["manager_fname"]." ".$hedgefund["manager_lname"]." ".$hedgefund["manager_title"]
+				?><br/>
+				<?php }?>
+				<?php
+	if ($hedgefund["administrator_id"]){
+				?>
+				<strong>Administrator: </strong><?php echo $hedgefund["administrator_fname"]." ".$hedgefund["administrator_lname"]." ".$hedgefund["administrator_title"]
+				?><br/>
+				<?php }?>
+				<?php
+	if ($hedgefund["custodian_id"]){
+				?>
+				<strong>Custodian: </strong><?php echo $hedgefund["custodian_fname"]." ".$hedgefund["custodian_lname"]." ".$hedgefund["custodian_title"]
+				?><br/>
+				<?php }?>
+				<?php
+	if ($hedgefund["accountant_id"]){
+				?>
+				<strong>Accountant: </strong><?php echo $hedgefund["accountant_fname"]." ".$hedgefund["accountant_lname"]." ".$hedgefund["accountant_title"]
+				?><br/>
+				<?php }?>
+				<?php
+	if ($hedgefund["prime_broker_id"]){
+				?>
+				<strong>Prime Broker: </strong><?php echo $hedgefund["prime_broker_fname"]." ".$hedgefund["prime_broker_lname"]." ".$hedgefund["prime_broker_title"]
+				?><br/>
+				<?php }?>
+				<?php
+	if ($hedgefund["legal_counsel_id"]){
+				?>
+				<strong>Legal Counsel: </strong><?php echo $hedgefund["legal_counsel_fname"]." ".$hedgefund["legal_counsel_lname"]." ".$hedgefund["legal_counsel_title"]
+				?><br/>
+				<?php }?>
+				<?php
+	if ($hedgefund["contact_person_id"]){
+				?>
+				<strong>Contact Person: </strong><?php echo $hedgefund["contact_person_fname"]." ".$hedgefund["contact_person_lname"]." ".$hedgefund["contact_person_title"]
+				?><br/>
+				<?php }?>
+			</p>
+			<?php
+	if (!empty($hedgefund["portfolios"])){
+			?>
+			<h3>Portfolio(s)</h3>
+			<ul>
+				<?php
+	foreach($hedgefund["portfolios"] as $item){
+				?>
+				<li>
+					<a href="/portfolio/calculate?id=<?php echo $item["id"]?>" target="_blank"><?php echo $item["name"]
+					?></a>
+				</li>
+				<?php }?>
+			</ul>
+			<?php
+			}
+			?>
+			
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					Fund Information
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Firm Assets:</strong> $ <?php echo number_format($hedgefund["firm_assets"], 2)
+								?>
+							</p>
+						</div>
+						
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Fund Assets:</strong> $ <?php echo number_format($hedgefund["firm_assets"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Primary Strategy:</strong><?php echo $hedgefund["primary_strategy"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Secondary Strategy:</strong><?php echo $hedgefund["secondary_strategy"]
+								?>
+							</p>
+						</div>
+						
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Secondary Strategy 2:</strong><?php echo $hedgefund["secondary_strategy_2"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Onshore/Offshore:</strong><?php echo $hedgefund["onshore_offshore"]
+								?>
+							</p>
+						</div>
+						
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Return Start:</strong><?php echo $hedgefund["return_start"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Minimum Investment:</strong> $ <?php echo number_format($hedgefund["minimum_investment"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Management Fee:</strong> $ <?php echo number_format($hedgefund["management_fee"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Incentive Fee:</strong> $ <?php echo number_format($hedgefund["incentive_fee"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Early Redemption Fee:</strong> $ <?php echo number_format($hedgefund["incentive_fee"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Other Fee:</strong> $ <?php echo number_format($hedgefund["other_fee"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Capital Addition:</strong> $ <?php echo number_format($hedgefund["capital_addition"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Capital Redemption:</strong> $ <?php echo number_format($hedgefund["capital_redemption"], 2)
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Lockup:</strong><?php echo $hedgefund["lockup"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Hurdle Rate:</strong><?php echo $hedgefund["hurdle_rate"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>High Watermark:</strong><?php echo $hedgefund["high_watermark"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Typical Exposure Net Low:</strong><?php echo $hedgefund["typical_net_exposure_low"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Typical Exposure Net High:</strong><?php echo $hedgefund["typical_net_exposure_high"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Typical Percent Long Low:</strong><?php echo $hedgefund["typical_percent_long_low"]
+								?>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
+							<p>
+								<strong>Typical Percent Long High:</strong><?php echo $hedgefund["typical_percent_long_high"]
+								?>
+							</p>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-9">
+			<div class="desc_box row">
+				<h4>Description</h4>
+				<p>
+					<?php echo nl2br($hedgefund["description"])
+					?>
+				</p>			
+			</div>
+			<div class="desc_box row">
+				<h4>Performance</h4>
+				<?php
+	        			$months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+	        	?>
+	        	<table class="table table-bordered table-hover table-striped">
+	        		<thead>
+						<tr>
+							<th>Year</th>
+							<?php
+								foreach($months as $month){
+									?>
+									<th><?php echo $month?></th>
+									<?php
+								}
+							?>
+						</tr>
+					</thead>
+	    			<tbody>
+	        			<?php
+		        			$start = intval(date("Y"))+2;
+							$skip_years = array();
+							for($i=$start;$i>=1999;$i--){
+								$do_not_skip = false;	
+								foreach($this->fund_percs as $fund_perc){
+									if ($fund_perc["year"]==$i){
+										if ($fund_perc["value"]){
+											$do_not_skip = true;	
+											break;									
+										}	
+									}
+								}
+								if (!$do_not_skip){
+									$skip_years[] = $i;
+								}
+							}
+		        			for($i=$start;$i>=1999;$i--){
+		        				if (in_array($i, $skip_years)){
+		        					continue;
+		        				}
+		        				?>
+		        				<tr>
+		        					<td><?php echo $i?></td>
+		        					<?php
+		        					
+										foreach($months as $month){?>
+											<?php
+													$value = "";
+													foreach($this->fund_percs as $fund_perc){
+														if ($fund_perc["month"]==$month&&$fund_perc["year"]==$i){
+															$value = number_format($fund_perc["value"], 2);
+														}
+													}
+													if ($value==""){
+														$value = "0.00";
+													}
+					        					
+											?>
+											
+											
+											<td><?php echo $value?> %</td>
+											<?php
+										}?>
+								
+		        				</tr>
+		        				<?php
+		        			}
+		        		?>	
+	    			</tbody>
+	    		</table>
+			</div>
+			
+		</div>
+	</div>
+ 	
+  	
+  </div>
+  <div class="tab-pane" id="performance">
+  	<div class="row">
+  		<div class="pull-right">
+  			<form class="form-inline" role="form" id="calculate-applied-leverage-performance-view">
+	  			<input type="hidden" name="fund_id" id="applied_performance_fund_id" value="<?php echo $hedgefund["id"]?>"/>
+	  			<div class="form-group">
+		  			<select name="portfolio_id" id="applied_performance_portfolio" class="form-control">
+		  				<?php
+						foreach($hedgefund["portfolios"] as $item){
+							?>
+							<option value="<?php echo $item["id"]?>"><?php echo $item["name"]?></option>
+							<?php
+						}?>
+		  			</select>	  				
+	  			</div>
+				<div class="form-group">
+					<select name="year" id="applied_performance_year" class="form-control">
+		  				<?php
+		  				for($i=$start;$i>=1999;$i--){
+		  					if (in_array($i, $skip_years)){
+	        					continue;
+	        				}
+							?>
+							<option value="<?php echo $i?>"><?php echo $i?></option>
+							<?php
+						}
+		  				?>
+		  			</select>
+
+	  			</div>
+	  			<div class="form-group">
+	  				<button type="submit" class="btn btn-default">Calculate</button>
+				</div>
+  			</form>
+  			
+  			
+  		</div>
+	
+		<div id="fund_a32_box" class="clearfix row" style="clear:both;padding-top:10px">
+			
+		</div>
+  	</div>
+  	
+  	
+  </div>
+</div>
+
+
+
+
